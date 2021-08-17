@@ -3,14 +3,14 @@
 
 
     <item
-        android:id="@+id/main_fragment"
+        android:id="@+id/homeFragment"
         android:title="Home"
 
         android:icon="@drawable/ic_baseline_home_24"/>
 
 
     <item
-        android:id="@+id/near_location_fragment"
+        android:id="@+id/nearLocationsFragment"
         android:title="Near Locations"
         android:icon="@drawable/ic_baseline_near_me_24"/>
 </menu>
