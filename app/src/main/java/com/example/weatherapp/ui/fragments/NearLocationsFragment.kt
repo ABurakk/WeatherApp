@@ -12,7 +12,6 @@ class NearLocationsFragment : Fragment(R.layout.near_location_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         Log.d("deneme","fragment2")
 
     }

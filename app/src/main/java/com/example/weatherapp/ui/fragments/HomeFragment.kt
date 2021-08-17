@@ -127,6 +127,11 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
         val city = geocoder.getFromLocation(latitude,longitude,1)
 
 
+        city.get(0).apply {
+            binding.cityText.text = this.adminArea
+            binding.countryText.text = this.countryName
+        }
+
         return city.toString()
     }
 
