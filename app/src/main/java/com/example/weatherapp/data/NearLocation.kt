@@ -1,3 +1,5 @@
 package com.example.weatherapp.data
 
-class NearLocation : ArrayList<NearLocationItem>()
+data class NearLocation(
+    val locations : List<NearLocationItem>
+)

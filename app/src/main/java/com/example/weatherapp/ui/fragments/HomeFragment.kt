@@ -7,17 +7,25 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Adapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
+import com.example.weatherapp.adapter.NearLocationAdapteForHome
+import com.example.weatherapp.data.NearLocation
+import com.example.weatherapp.data.NearLocationItem
 import com.example.weatherapp.databinding.MainFragmentBinding
 import com.google.android.gms.location.*
 import com.vmadalin.easypermissions.EasyPermissions
-import java.lang.String
-import java.lang.Exception
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 
+
+
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.main_fragment) {
 
 
@@ -26,6 +34,8 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private lateinit var geocoder : Geocoder
+    private lateinit var recyclerViewAdapter: NearLocationAdapteForHome
+    lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var city : kotlin.String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,8 +43,17 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
         binding = MainFragmentBinding.bind(view)
 
+        initilazeRecyclerViewAdapter()
+
         geocoder = Geocoder(requireContext(),Locale.getDefault())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+
+        var n1 = NearLocationItem(3456,"123","City","Ankara",4432)
+        var list = listOf(n1)
+
+        recyclerViewAdapter.nearLocationList = list
+        recyclerViewAdapter.notifyDataSetChanged()
 
 
         getCurrentLocation()
@@ -112,8 +131,7 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
     private fun startLocationUpdates() {
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
-            locationCallback,
-            null /* Looper */
+            locationCallback,null
         )
     }
 
@@ -133,6 +151,13 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
         }
 
         return city.toString()
+    }
+
+    fun initilazeRecyclerViewAdapter(){
+        recyclerViewAdapter = NearLocationAdapteForHome(listOf())
+        linearLayoutManager = LinearLayoutManager(requireContext())
+        binding.nearLocationRecyclerView.layoutManager = linearLayoutManager
+        binding.nearLocationRecyclerView.adapter = recyclerViewAdapter
     }
 
 }

@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.DetailFragmentBinding
 import com.vmadalin.easypermissions.EasyPermissions
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.detail_fragment) {
 
 
