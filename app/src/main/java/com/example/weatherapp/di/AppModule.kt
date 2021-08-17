@@ -1,5 +1,8 @@
 package com.example.weatherapp.di
 
+import com.example.weatherapp.api.DefaultWeatherApiRepository
+import com.example.weatherapp.api.WeatherApiRepository
+import com.example.weatherapp.api.WeatherApiService
 import com.example.weatherapp.other.constant
 import dagger.Module
 import dagger.Provides
@@ -39,5 +42,16 @@ object AppModule {
         .client(okHttpClient)
         .baseUrl(constant.BASE_URL)
         .build()
+
+
+
+    @Singleton
+    @Provides
+    fun provideApiService(retrofit: Retrofit) : WeatherApiService = retrofit.create(WeatherApiService::class.java)
+
+
+    @Singleton
+    @Provides
+    fun providesRepository(weatherService : WeatherApiService) = DefaultWeatherApiRepository(weatherService) as WeatherApiRepository
 
 }

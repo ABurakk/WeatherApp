@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Adapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
@@ -17,6 +18,8 @@ import com.example.weatherapp.adapter.NearLocationAdapteForHome
 import com.example.weatherapp.data.NearLocation
 import com.example.weatherapp.data.NearLocationItem
 import com.example.weatherapp.databinding.MainFragmentBinding
+import com.example.weatherapp.other.Resource
+import com.example.weatherapp.ui.viewmodels.HomeFragmentViewModel
 import com.google.android.gms.location.*
 import com.vmadalin.easypermissions.EasyPermissions
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +32,7 @@ import java.util.*
 class HomeFragment : Fragment(R.layout.main_fragment) {
 
 
+    lateinit var viewmodel : HomeFragmentViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var binding : MainFragmentBinding
     private lateinit var locationRequest: LocationRequest
@@ -36,27 +40,23 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
     private lateinit var geocoder : Geocoder
     private lateinit var recyclerViewAdapter: NearLocationAdapteForHome
     lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var city : kotlin.String
+    private lateinit var city : String
+    private lateinit var coordinat : String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = MainFragmentBinding.bind(view)
-
         initilazeRecyclerViewAdapter()
+        binding.progressBarHome.visibility = View.INVISIBLE
 
+        viewmodel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
         geocoder = Geocoder(requireContext(),Locale.getDefault())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
-
-        var n1 = NearLocationItem(3456,"123","City","Ankara",4432)
-        var list = listOf(n1)
-
-        recyclerViewAdapter.nearLocationList = list
-        recyclerViewAdapter.notifyDataSetChanged()
-
-
         getCurrentLocation()
+
+
+        subscribeToLocationListObservers()
 
 
 
@@ -68,7 +68,6 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocation(){
-        if(checkLocationPermisson()){
           fusedLocationClient.lastLocation.addOnSuccessListener {
               location ->
               //location objesi uygulamada veya başka bir uygulamadadan alınan en son locationa göre çalışıyor.
@@ -76,8 +75,8 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
                   var longitude = location.longitude
                   var latitude = location.latitude
                   city = coordinatToCity(longitude,latitude)
-
-                  Log.d("deneme",city)
+                  coordinat =latitude.toString()+","+longitude.toString()
+                  viewmodel.getLocations(coordinat)
               }
               //Eğer en son belirlen konum yoksa null dönüyor örn: Telefonu kapatıp açtığımızda bu sebeple yeniden location isteği atmamız gerekiyor.
               else{
@@ -93,16 +92,11 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
 
 
-        }
+
 
 
     }
-
-
-
-    //
-    private fun getLocationUpdates()
-    {
+    private fun getLocationUpdates() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         locationRequest = LocationRequest()
         locationRequest.interval = 50000
@@ -118,7 +112,9 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
                     val location =
                         locationResult.lastLocation
 
-                   city = coordinatToCity(location.longitude,location.latitude)
+                    coordinat =location.latitude.toString()+","+location.longitude.toString()
+                    viewmodel.getLocations(coordinat)
+                    city = coordinatToCity(location.longitude,location.latitude)
                     Log.d("deneme",city)
 
                 }
@@ -134,13 +130,6 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
             locationCallback,null
         )
     }
-
-
-    private fun checkLocationPermisson() = EasyPermissions.
-    hasPermissions(requireContext(),android.Manifest.permission.ACCESS_FINE_LOCATION)
-
-
-
     private fun coordinatToCity(longitude : Double, latitude : Double) : kotlin.String{
         val city = geocoder.getFromLocation(latitude,longitude,1)
 
@@ -152,12 +141,37 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
         return city.toString()
     }
-
     fun initilazeRecyclerViewAdapter(){
         recyclerViewAdapter = NearLocationAdapteForHome(listOf())
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.nearLocationRecyclerView.layoutManager = linearLayoutManager
         binding.nearLocationRecyclerView.adapter = recyclerViewAdapter
+    }
+
+
+
+    fun subscribeToLocationListObservers(){
+        viewmodel.locationList.observe(requireActivity()){
+            when(it){
+                is Resource.Loading -> {
+                    binding.progressBarHome.visibility = View.VISIBLE
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    binding.progressBarHome.visibility = View.INVISIBLE
+
+                }
+                is Resource.Success -> {
+                    binding.progressBarHome.visibility = View.INVISIBLE
+
+                     it?.data?.let {
+                        recyclerViewAdapter.nearLocationList = it
+                         recyclerViewAdapter.notifyDataSetChanged()
+                    }
+
+                }
+            }
+        }
     }
 
 }
