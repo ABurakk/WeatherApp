@@ -1,27 +1,20 @@
 package com.example.weatherapp.ui.fragments
 
 import android.annotation.SuppressLint
-import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Adapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.NearLocationAdapteForHome
-import com.example.weatherapp.data.NearLocation
-import com.example.weatherapp.data.NearLocationItem
 import com.example.weatherapp.databinding.MainFragmentBinding
 import com.example.weatherapp.other.Resource
 import com.example.weatherapp.ui.viewmodels.HomeFragmentViewModel
 import com.google.android.gms.location.*
-import com.vmadalin.easypermissions.EasyPermissions
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -57,6 +50,9 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
 
         subscribeToLocationListObservers()
+        subscribeToTheCityDetail()
+        susbcribeToCityTempreture()
+
 
 
 
@@ -135,14 +131,16 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
 
         city.get(0).apply {
-            binding.cityText.text = this.adminArea
+            binding.cityText.text = this.locality+"-"+this.adminArea
             binding.countryText.text = this.countryName
+
+            viewmodel.getCityDetail(this.locality)
         }
 
         return city.toString()
     }
     fun initilazeRecyclerViewAdapter(){
-        recyclerViewAdapter = NearLocationAdapteForHome(listOf())
+        recyclerViewAdapter = NearLocationAdapteForHome(requireView(),listOf())
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.nearLocationRecyclerView.layoutManager = linearLayoutManager
         binding.nearLocationRecyclerView.adapter = recyclerViewAdapter
@@ -162,6 +160,8 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
                 }
                 is Resource.Success -> {
+                    Log.d("deneme","location datalar geldi")
+
                     binding.progressBarHome.visibility = View.INVISIBLE
 
                      it?.data?.let {
@@ -169,6 +169,35 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
                          recyclerViewAdapter.notifyDataSetChanged()
                     }
 
+                }
+            }
+        }
+    }
+
+    fun subscribeToTheCityDetail(){
+        viewmodel.cityDetail.observe(requireActivity()){
+            when(it){
+                is Resource.Error -> {
+                    Log.d("deneme",it.message.toString())
+                }
+                is Resource.Success -> {
+                    Log.d("deneme","city detail geldi")
+                    viewmodel.getCurretTempretureOfGivenCity(it.data?.get(0)?.woeid.toString())
+
+                }
+            }
+        }
+    }
+
+    fun susbcribeToCityTempreture(){
+        viewmodel.tempretureList.observe(requireActivity()){
+            when(it){
+                is Resource.Error -> {
+                     Toast.makeText(requireContext(),"Couldn't acces to tempreture data",Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Success -> {
+                    Log.d("deneme","city tempreture data")
+                   binding.temprutureText.text = it.data?.get(0)?.the_temp.toString()+"°C"
                 }
             }
         }

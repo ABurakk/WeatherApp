@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/bungee_regular"
-        android:text="TextView"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -29,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bungee_regular"
-        android:text="TextView"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
@@ -45,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/bungee_regular"
-        android:text="TextView"
+        android:text="0"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
@@ -57,8 +55,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/nearLocationRecyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="410dp"
         android:layout_height="0dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temprutureText" />
