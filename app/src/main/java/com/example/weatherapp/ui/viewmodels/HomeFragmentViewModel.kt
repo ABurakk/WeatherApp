@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.api.WeatherApiRepository
-import com.example.weatherapp.data.NearLocation
 import com.example.weatherapp.data.NearLocationItem
 import com.example.weatherapp.other.Resource
 import kotlinx.coroutines.launch
@@ -26,7 +25,7 @@ class HomeFragmentViewModel @ViewModelInject constructor(
 
         viewModelScope.launch {
 
-            _locationsLiveData.postValue(repository.getNearLocation(latlong))
+            _locationsLiveData.postValue(repository.getNearLocations(latlong))
 
         }
     }

@@ -1,5 +1,6 @@
 package com.example.weatherapp.api
 
+import com.example.weatherapp.data.CityItem
 import com.example.weatherapp.data.NearLocation
 import com.example.weatherapp.data.NearLocationItem
 import retrofit2.Response
@@ -12,4 +13,6 @@ interface WeatherApiService {
     @GET("location/search/")
     suspend fun getNearLocation(@Query("lattlong") latlong:String) : Response<List<NearLocationItem>>
 
+    @GET("/location/search/")
+    suspend fun getCityDetailByName(@Query("query") cityName : String) : Response<CityItem>
 }

@@ -9,6 +9,6 @@ import retrofit2.http.Query
 interface WeatherApiRepository {
 
 
-    suspend fun getNearLocation(latlong:String) : Resource<List<NearLocationItem>>
+    suspend fun getNearLocations(latlong:String) : Resource<List<NearLocationItem>>
 
 }

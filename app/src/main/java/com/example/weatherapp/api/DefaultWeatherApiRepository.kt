@@ -7,7 +7,7 @@ import retrofit2.Response
 import java.lang.Exception
 
 class DefaultWeatherApiRepository(private val service : WeatherApiService) : WeatherApiRepository {
-    override suspend fun getNearLocation(latlong: String): Resource<List<NearLocationItem>> {
+    override suspend fun getNearLocations(latlong: String): Resource<List<NearLocationItem>> {
         try {
 
             val response = service.getNearLocation(latlong)
