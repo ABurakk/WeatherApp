@@ -17,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),EasyPermissions.PermissionCallbacks  {
 

@@ -25,6 +25,9 @@
         <argument
             android:name="latlong"
             app:argType="string" />
+        <argument
+            android:name="cityName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -32,6 +35,9 @@
         android:label="DetailFragment" >
         <argument
             android:name="woid"
+            app:argType="string" />
+        <argument
+            android:name="cityName"
             app:argType="string" />
     </fragment>
 </navigation>

@@ -34,7 +34,7 @@ class NearLocationAdapter(var view: View, var nearLocationList : List<NearLocati
 
         holder.itemView.setOnClickListener {
             if(fragmentCode==constant.listFragmentcode){
-                val action = NearLocationsFragmentDirections.actionNearLocationsFragmentToDetailFragment(nearLocationList.get(position).woeid.toString())
+                val action = NearLocationsFragmentDirections.actionNearLocationsFragmentToDetailFragment(nearLocationList.get(position).woeid.toString(),nearLocationList.get(position).title)
                 Navigation.findNavController(view).navigate(action)
             }
         }
