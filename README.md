@@ -1,6 +1,6 @@
 # WeatherApp
 
-##Tech Stack
+## Tech Stack
 * Kotlin
 * MVVM Architecture
 * Dagger Hilt
