@@ -166,6 +166,8 @@ class HomeFragment : Fragment(R.layout.main_fragment), EasyPermissions.Permissio
 
         return city.toString()
     }
+
+    //UI Related Functions
     fun initilazeRecyclerViewAdapter(){
         recyclerViewAdapter = NearLocationAdapter(requireView(),listOf(),constant.homeFragmentCode)
         linearLayoutManager = LinearLayoutManager(requireContext())
@@ -175,6 +177,7 @@ class HomeFragment : Fragment(R.layout.main_fragment), EasyPermissions.Permissio
 
 
 
+    //Livedata-ViewModel
     fun subscribeToLocationListObservers(){
         viewmodel.locationList.observe(requireActivity()){
             when(it){

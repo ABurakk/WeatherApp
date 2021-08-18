@@ -7,21 +7,23 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.weatherapp.ui.fragments.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="Home">
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
         <action
             android:id="@+id/action_homeFragment_to_nearLocationsFragment"
-            app:destination="@id/nearLocationsFragment" />
+            app:destination="@id/nearLocationsFragment"
+            app:enterAnim="@anim/from_left" />
     </fragment>
     <fragment
         android:id="@+id/nearLocationsFragment"
         android:name="com.example.weatherapp.ui.fragments.NearLocationsFragment"
-        android:label="NearLocationsFragment" >
+        android:label="Near Locations">
         <action
             android:id="@+id/action_nearLocationsFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/from_left" />
         <argument
             android:name="latlong"
             app:argType="string" />
@@ -32,7 +34,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.weatherapp.ui.fragments.DetailFragment"
-        android:label="DetailFragment" >
+        android:label="City Detail">
         <argument
             android:name="woid"
             app:argType="string" />

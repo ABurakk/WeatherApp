@@ -31,8 +31,13 @@ class MainActivity : AppCompatActivity()  {
         setContentView(binding.root)
 
         navController = Navigation.findNavController(this,R.id.fragment_container)
+        binding.navView.setupWithNavController(navController)
 
-        binding.bottomNavigationView.setupWithNavController(navController)
+
+        binding.chipNavigationBar.setOnItemSelectedListener {  item ->
+            binding.navView.selectedItemId = item
+
+        }
 
         NavigationUI.setupActionBarWithNavController(this,navController)
 
