@@ -1,4 +1,4 @@
-# WeatherApp
+# WeatherApp ☀️
 
 ## Tech Stack
 * Kotlin
