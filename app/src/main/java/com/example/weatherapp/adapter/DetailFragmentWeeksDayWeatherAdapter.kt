@@ -7,6 +7,7 @@ import com.example.weatherapp.data.ConsolidatedWeather
 import com.example.weatherapp.databinding.DaysItemBinding
 import com.example.weatherapp.other.constant
 import com.example.weatherapp.other.downloadImage
+import kotlin.math.roundToLong
 
 class DetailFragmentWeeksDayWeatherAdapter(var list : List<ConsolidatedWeather>)
     :RecyclerView.Adapter<DetailFragmentWeeksDayWeatherAdapter.ViewHolder>(){
@@ -26,7 +27,7 @@ class DetailFragmentWeeksDayWeatherAdapter(var list : List<ConsolidatedWeather>)
         list.get(position).let {
             holder.txtDate.text = it.applicable_date
             holder.imgWeather.downloadImage(constant.IMAGE_BASE_URL+it.weather_state_abbr+".png")
-            holder.txtWeather.text = it.the_temp.toString()
+            holder.txtWeather.text = it.the_temp.roundToLong().toString()+"°C"
         }
     }
 

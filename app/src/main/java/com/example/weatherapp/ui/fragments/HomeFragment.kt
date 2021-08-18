@@ -1,5 +1,6 @@
 package com.example.weatherapp.ui.fragments
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Geocoder
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.example.weatherapp.other.Resource
 import com.example.weatherapp.other.constant
 import com.example.weatherapp.ui.viewmodels.SharedViewModel
 import com.google.android.gms.location.*
+import com.vmadalin.easypermissions.EasyPermissions
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -23,7 +25,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.main_fragment) {
+class HomeFragment : Fragment(R.layout.main_fragment), EasyPermissions.PermissionCallbacks {
 
 
     lateinit var viewmodel : SharedViewModel
@@ -47,7 +49,12 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
         viewmodel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         geocoder = Geocoder(requireContext(),Locale.getDefault())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        getCurrentLocation()
+        if(!checkLocationPermisson()) requestLocationPermission()
+
+
+
+        if(checkLocationPermisson())
+            getCurrentLocation()
 
 
         subscribeToLocationListObservers()
@@ -60,9 +67,36 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
     }
 
+    //Permissions
+    private fun checkLocationPermisson() = EasyPermissions.
+    hasPermissions(requireContext(),android.Manifest.permission.ACCESS_FINE_LOCATION)
+    private fun requestLocationPermission() {
+        EasyPermissions.requestPermissions(
+            this,
+            "This application cannot work without Location Permission.",
+            1,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        Toast.makeText(requireContext(),"İzin vermeden kullanamazsınız",Toast.LENGTH_SHORT).show()
+        System.exit(-1)
+    }
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        Toast.makeText(
+            requireContext(),
+            "Permission Granted!",
+            Toast.LENGTH_SHORT
+        ).show()
 
+        getCurrentLocation()
+    }
 
-
+    //Location
     @SuppressLint("MissingPermission")
     fun getCurrentLocation(){
           fusedLocationClient.lastLocation.addOnSuccessListener {
