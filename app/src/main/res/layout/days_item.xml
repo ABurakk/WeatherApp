@@ -36,7 +36,7 @@
                 tools:background="#645780" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -49,27 +49,27 @@
                 app:layout_constraintTop_toTopOf="@+id/backgroundImage" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/weatherImage"
                 android:layout_width="41dp"
                 android:layout_height="38dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/textView5"
+                app:layout_constraintEnd_toEndOf="@+id/txtDate"
                 app:layout_constraintHorizontal_bias="0.529"
-                app:layout_constraintStart_toStartOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                app:layout_constraintStart_toStartOf="@+id/txtDate"
+                app:layout_constraintTop_toBottomOf="@+id/txtDate"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/txtWeather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#F1E6E6"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="TextView"
-                app:layout_constraintEnd_toEndOf="@+id/imageView3"
-                app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                app:layout_constraintEnd_toEndOf="@+id/weatherImage"
+                app:layout_constraintStart_toStartOf="@+id/weatherImage"
+                app:layout_constraintTop_toBottomOf="@+id/weatherImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

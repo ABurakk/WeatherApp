@@ -33,7 +33,7 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
     private lateinit var locationCallback: LocationCallback
     private lateinit var geocoder : Geocoder
     private lateinit var recyclerViewAdapter: NearLocationAdapter
-    lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var city : String
     private lateinit var coordinat : String
 

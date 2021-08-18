@@ -32,10 +32,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDays"
         android:layout_width="415dp"
-        android:layout_height="120dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="387dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tvWeather" />
 
     <TextView
         android:id="@+id/tvCityName"
