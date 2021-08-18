@@ -10,11 +10,13 @@
         android:id="@+id/cardView"
         android:layout_width="100dp"
         android:layout_height="150dp"
+        android:background="@drawable/background"
+        app:cardBackgroundColor="#9482ba"
         app:cardCornerRadius="25dp"
+        android:layout_marginLeft="16dp"
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,18 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/backgroundImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                tools:background="#645780" />
 
             <TextView
                 android:id="@+id/txtDate"
@@ -44,9 +34,8 @@
                 android:text="TextView"
                 android:textColor="#F1E6E6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.526"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/backgroundImage" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/weatherImage"
@@ -54,7 +43,7 @@
                 android:layout_height="38dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/txtDate"
-                app:layout_constraintHorizontal_bias="0.529"
+                app:layout_constraintHorizontal_bias="0.523"
                 app:layout_constraintStart_toStartOf="@+id/txtDate"
                 app:layout_constraintTop_toBottomOf="@+id/txtDate"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -63,16 +52,16 @@
                 android:id="@+id/txtWeather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#F1E6E6"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="TextView"
+                android:textColor="#F1E6E6"
                 app:layout_constraintEnd_toEndOf="@+id/weatherImage"
+                app:layout_constraintHorizontal_bias="0.523"
                 app:layout_constraintStart_toStartOf="@+id/weatherImage"
                 app:layout_constraintTop_toBottomOf="@+id/weatherImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </androidx.cardview.widget.CardView>

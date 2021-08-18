@@ -21,7 +21,7 @@ class DetailFragmentViewModel @ViewModelInject constructor(
 
 
     fun getCurretTempretureOfGivenCity(woid:String){
-
+        _cityWeatherList.postValue(Resource.Loading())
         viewModelScope.launch {
             var tempretureList = repository.getCityFiveDayTempretureDataByWoid(woid)
             _cityWeatherList.postValue(tempretureList)
