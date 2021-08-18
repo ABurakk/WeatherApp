@@ -12,7 +12,7 @@ import com.example.weatherapp.data.NearLocationItem
 import com.example.weatherapp.other.Resource
 import kotlinx.coroutines.launch
 
-class HomeFragmentViewModel @ViewModelInject constructor(
+class SharedViewModel @ViewModelInject constructor(
     private val repository: WeatherApiRepository
 ) : ViewModel() {
 

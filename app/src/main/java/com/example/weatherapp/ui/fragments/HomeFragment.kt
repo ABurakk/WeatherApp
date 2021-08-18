@@ -10,10 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
-import com.example.weatherapp.adapter.NearLocationAdapteForHome
+import com.example.weatherapp.adapter.NearLocationAdapter
 import com.example.weatherapp.databinding.MainFragmentBinding
 import com.example.weatherapp.other.Resource
-import com.example.weatherapp.ui.viewmodels.HomeFragmentViewModel
+import com.example.weatherapp.other.constant
+import com.example.weatherapp.ui.viewmodels.SharedViewModel
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -25,13 +26,13 @@ import java.util.*
 class HomeFragment : Fragment(R.layout.main_fragment) {
 
 
-    lateinit var viewmodel : HomeFragmentViewModel
+    lateinit var viewmodel : SharedViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var binding : MainFragmentBinding
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private lateinit var geocoder : Geocoder
-    private lateinit var recyclerViewAdapter: NearLocationAdapteForHome
+    private lateinit var recyclerViewAdapter: NearLocationAdapter
     lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var city : String
     private lateinit var coordinat : String
@@ -43,7 +44,7 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
         initilazeRecyclerViewAdapter()
         binding.progressBarHome.visibility = View.INVISIBLE
 
-        viewmodel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
+        viewmodel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         geocoder = Geocoder(requireContext(),Locale.getDefault())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         getCurrentLocation()
@@ -84,13 +85,6 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
 
           }
 
-
-
-
-
-
-
-
     }
     private fun getLocationUpdates() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -111,7 +105,6 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
                     coordinat =location.latitude.toString()+","+location.longitude.toString()
                     viewmodel.getLocations(coordinat)
                     city = coordinatToCity(location.longitude,location.latitude)
-                    Log.d("deneme",city)
 
                 }
 
@@ -140,7 +133,7 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
         return city.toString()
     }
     fun initilazeRecyclerViewAdapter(){
-        recyclerViewAdapter = NearLocationAdapteForHome(requireView(),listOf())
+        recyclerViewAdapter = NearLocationAdapter(requireView(),listOf(),constant.homeFragmentCode)
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.nearLocationRecyclerView.layoutManager = linearLayoutManager
         binding.nearLocationRecyclerView.adapter = recyclerViewAdapter
@@ -155,12 +148,10 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
                     binding.progressBarHome.visibility = View.VISIBLE
                 }
                 is Resource.Error -> {
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
                     binding.progressBarHome.visibility = View.INVISIBLE
 
                 }
                 is Resource.Success -> {
-                    Log.d("deneme","location datalar geldi")
 
                     binding.progressBarHome.visibility = View.INVISIBLE
 
@@ -178,10 +169,8 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
         viewmodel.cityDetail.observe(requireActivity()){
             when(it){
                 is Resource.Error -> {
-                    Log.d("deneme",it.message.toString())
                 }
                 is Resource.Success -> {
-                    Log.d("deneme","city detail geldi")
                     viewmodel.getCurretTempretureOfGivenCity(it.data?.get(0)?.woeid.toString())
 
                 }
@@ -196,7 +185,6 @@ class HomeFragment : Fragment(R.layout.main_fragment) {
                      Toast.makeText(requireContext(),"Couldn't acces to tempreture data",Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
-                    Log.d("deneme","city tempreture data")
                    binding.temprutureText.text = it.data?.get(0)?.the_temp.toString()+"°C"
                 }
             }

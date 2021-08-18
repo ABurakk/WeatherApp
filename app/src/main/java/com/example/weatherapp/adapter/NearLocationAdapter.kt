@@ -7,11 +7,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.data.NearLocationItem
-import com.example.weatherapp.databinding.MainFragmentBinding
 import com.example.weatherapp.databinding.NearLocationItemBinding
+import com.example.weatherapp.other.constant
+import com.example.weatherapp.ui.fragments.NearLocationsFragmentDirections
 
-class NearLocationAdapteForHome(var view: View,var nearLocationList : List<NearLocationItem>)
-    : RecyclerView.Adapter<NearLocationAdapteForHome.ViewHolder>(){
+class NearLocationAdapter(var view: View, var nearLocationList : List<NearLocationItem>,var fragmentCode:Int)
+    : RecyclerView.Adapter<NearLocationAdapter.ViewHolder>(){
 
 
     class ViewHolder (binding: NearLocationItemBinding) : RecyclerView.ViewHolder(binding.root){
@@ -32,11 +33,17 @@ class NearLocationAdapteForHome(var view: View,var nearLocationList : List<NearL
         }
 
         holder.itemView.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_nearLocationsFragment)
+            if(fragmentCode==constant.listFragmentcode){
+                val action = NearLocationsFragmentDirections.actionNearLocationsFragmentToDetailFragment(nearLocationList.get(position).woeid.toString())
+                Navigation.findNavController(view).navigate(action)
+            }
         }
     }
 
     override fun getItemCount(): Int {
+        if(fragmentCode==constant.homeFragmentCode)
+            return nearLocationList.size/2
+
         return nearLocationList.size
     }
 

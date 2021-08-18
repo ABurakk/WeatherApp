@@ -22,9 +22,16 @@
         <action
             android:id="@+id/action_nearLocationsFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <argument
+            android:name="latlong"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.weatherapp.ui.fragments.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment" >
+        <argument
+            android:name="woid"
+            app:argType="string" />
+    </fragment>
 </navigation>
